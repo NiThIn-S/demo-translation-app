@@ -26,6 +26,8 @@ const transcriptionSubmitButton =
 const recordingStatus = document.getElementById("recording-status");
 const recordedAudio = document.getElementById("recorded-audio");
 
+const mockNotice = document.getElementById("translation-mock-notice");
+
 const translationResult = document.getElementById("translation-result");
 const transcriptionResult = document.getElementById("transcription-result");
 
@@ -80,8 +82,11 @@ async function loadLanguages() {
 translationForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-
     clearError();
+
+    if (mockNotice) {
+        mockNotice.hidden = true;
+    }
 
     translationResult.textContent = "Translating...";
     translationResult.hidden = false;
@@ -113,14 +118,21 @@ translationForm.addEventListener("submit", async (event) => {
             data.translated_text;
 
         translationResult.hidden = false;
+
+        if (mockNotice) {
+            mockNotice.hidden = false;
+        }
     } catch (error) {
         translationResult.hidden = true;
+
+        if (mockNotice) {
+            mockNotice.hidden = true;
+        }
+
         showError(
             error.message || "Translation failed.",
         );
     }
-
-
 });
 
 

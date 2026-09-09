@@ -1,6 +1,6 @@
 import asyncio
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 
 from app.api.dependencies.providers import (
     get_detection_provider,
@@ -37,14 +37,16 @@ async def health(
         translation_provider.health(),
         transcription_provider.health(),
         detection_provider.health(),
+        return_exceptions=True,
     )
 
-    if not all(results):
-        from fastapi import HTTPException
-
+    if any(
+        isinstance(result, Exception) or result is False
+        for result in results
+    ):
         raise HTTPException(
             status_code=503,
-            detail="One or more model providers are unavailable.",
+            detail="One or more providers are unavailable.",
         )
 
     return HealthResponse(
