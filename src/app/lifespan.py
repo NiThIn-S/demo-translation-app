@@ -12,6 +12,7 @@ from app.core.logger import get_logger
 from app.providers.detection.lingua import LinguaLanguageDetectionProvider
 from app.providers.transcription.faster_whisper import FasterWhisperProvider
 from app.providers.translation.opus_mt import OpusMTTranslationProvider
+from app.providers.translation.mock import MockTranslationProvider
 from app.services.language_service import LanguageService
 from app.services.transcription_service import TranscriptionService
 from app.services.translation_service import TranslationService
@@ -46,10 +47,18 @@ async def lifespan(
 
     language_service = LanguageService()
 
-    translation_provider = OpusMTTranslationProvider(
-        model_name=settings.translation_model or None,
-        cache_dir=str(settings.model_cache_path),
-    )
+    if settings.translation_provider == "mock":
+        translation_provider = MockTranslationProvider()
+    elif settings.translation_provider == "opus_mt":
+        translation_provider = OpusMTTranslationProvider(
+            model_name=settings.translation_model or None,
+            cache_dir=str(settings.model_cache_path),
+        )
+    else:
+        raise ValueError(
+            f"Unsupported translation provider: "
+            f"{settings.translation_provider}"
+        )
 
     transcription_provider = FasterWhisperProvider(
         model_name=settings.asr_model,

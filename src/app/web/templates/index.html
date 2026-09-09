@@ -7,19 +7,28 @@
 <section class="hero">
     <h1>Translation & Transcription</h1>
 
-
     <p>
         Translate short text or transcribe short audio directly
         from your browser.
     </p>
 
+    <div class="info-box">
+        <strong>Note:</strong>
+        The first request may take longer while the speech-to-text
+        model is loaded. Subsequent requests should be faster.
+    </div>
 
+    {% if translation_provider == "mock" %}
+    <div class="info-box">
+        <strong>Translation demo mode:</strong>
+        Translation is currently mocked because the free deployment environment has limited memory. LibreTranslate is also temporarily restricting free translation requests due to abuse prevention. For real translation, you can run the application locally with the OPUS-MT model.
+    </div>
+    {% endif %}
 </section>
 
 <section class="grid">
     <article class="card">
         <h2>Translate</h2>
-
 
         <form id="translation-form">
             <label for="source-language">
@@ -42,8 +51,13 @@
                 Text
             </label>
 
-            <textarea id="translation-text" rows="7" maxlength="250" placeholder="Enter text to translate..."
-                required></textarea>
+            <textarea
+                id="translation-text"
+                rows="7"
+                maxlength="250"
+                placeholder="Enter text to translate..."
+                required
+            ></textarea>
 
             <button type="submit">
                 Translate
@@ -73,28 +87,42 @@
                 </span>
             </div>
 
-            <audio id="recorded-audio" controls preload="metadata" hidden></audio>
+            <audio
+                id="recorded-audio"
+                controls
+                preload="metadata"
+                hidden
+            ></audio>
 
             <button id="transcribe-submit-button" type="submit">
                 Transcribe
             </button>
         </form>
 
-        <div id="transcription-state" class="transcription-state" hidden aria-live="polite"></div>
+        <div
+            id="transcription-state"
+            class="transcription-state"
+            hidden
+            aria-live="polite"
+        ></div>
 
-        <div id="transcription-result" class="result" hidden></div>
+        <div
+            id="transcription-result"
+            class="result"
+            hidden
+        ></div>
 
-        <div id="transcription-metadata" class="metadata-box" hidden></div>
+        <div
+            id="transcription-metadata"
+            class="metadata-box"
+            hidden
+        ></div>
     </article>
-
-
 </section>
 
 <div id="global-error" class="error" hidden role="alert"></div>
 {% endblock %}
 
 {% block scripts %}
-
 <script src="{{ url_for('static', path='js/app.js') }}"></script>
-
 {% endblock %}

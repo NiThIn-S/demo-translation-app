@@ -61,9 +61,8 @@ def create_app(
             context={
                 "app_name": settings.app_name,
                 "app_version": settings.app_version,
-                "max_audio_duration_seconds": (
-                    settings.max_audio_duration_seconds
-                ),
+                "max_audio_duration_seconds": settings.max_audio_duration_seconds,
+                "translation_provider": settings.translation_provider,
             },
         )
 
