@@ -1,0 +1,5 @@
+.venv/
+.read/
+.ruff_cache/
+.mypy_cache/
+.cache/

@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}{{ app_name }}{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <h1>Translation & Transcription</h1>
+
+
+    <p>
+        Translate short text or transcribe short audio directly
+        from your browser.
+    </p>
+
+
+</section>
+
+<section class="grid">
+    <article class="card">
+        <h2>Translate</h2>
+
+
+        <form id="translation-form">
+            <label for="source-language">
+                Source language
+            </label>
+
+            <select id="source-language">
+                <option value="auto">
+                    Auto detect
+                </option>
+            </select>
+
+            <label for="target-language">
+                Target language
+            </label>
+
+            <select id="target-language"></select>
+
+            <label for="translation-text">
+                Text
+            </label>
+
+            <textarea id="translation-text" rows="7" maxlength="250" placeholder="Enter text to translate..."
+                required></textarea>
+
+            <button type="submit">
+                Translate
+            </button>
+        </form>
+
+        <div id="translation-result" class="result" hidden></div>
+    </article>
+
+    <article class="card">
+        <h2>Transcribe</h2>
+
+        <form id="transcription-form">
+            <label for="audio-file">
+                Audio file
+            </label>
+
+            <input id="audio-file" type="file" accept="audio/*">
+
+            <div class="recording-controls">
+                <button id="record-button" type="button">
+                    Start recording
+                </button>
+
+                <span id="recording-status" class="status">
+                    Ready
+                </span>
+            </div>
+
+            <audio id="recorded-audio" controls preload="metadata" hidden></audio>
+
+            <button id="transcribe-submit-button" type="submit">
+                Transcribe
+            </button>
+        </form>
+
+        <div id="transcription-state" class="transcription-state" hidden aria-live="polite"></div>
+
+        <div id="transcription-result" class="result" hidden></div>
+
+        <div id="transcription-metadata" class="metadata-box" hidden></div>
+    </article>
+
+
+</section>
+
+<div id="global-error" class="error" hidden role="alert"></div>
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{{ url_for('static', path='js/app.js') }}"></script>
+
+{% endblock %}
